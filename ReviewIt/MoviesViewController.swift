@@ -8,6 +8,8 @@
 
 import UIKit
 import AFNetworking
+import MBProgressHUD
+
 
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -48,8 +50,37 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 }
         })
         task.resume()
-    }
+        
+        func loadDataFromNetwork()
+        {
+            
+            // ... Create the NSURLRequest (myRequest) ...
+            
+            // Configure session so that completion handler is executed on main UI thread
+            let session = NSURLSession(
+                configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+                delegate:nil,
+                delegateQueue:NSOperationQueue.mainQueue()
+            )
+            
+            // Display HUD right before the request is made
+            MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            
+            let task : NSURLSessionDataTask = session.dataTaskWithRequest(request,
+                completionHandler: { (data, response, error) in
+                    
+                    // Hide HUD once the network request comes back (must be done on main UI thread)
+                    MBProgressHUD.hideHUDForView(self.view, animated: true)
+                    
+                    // ... Remainder of response handling code ...
+                    
+            });
+            task.resume()
+        }
 
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
