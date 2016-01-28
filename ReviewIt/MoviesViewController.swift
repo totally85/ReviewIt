@@ -16,14 +16,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
     @IBOutlet weak var tableView: UITableView!
     var movies: [NSDictionary]?
-    let refreshControl = UIRefreshControl()         //Initializes a UIRefreshControl that will refresh the movie list    
-    
-    override func viewDidLoad() {
+  
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
- 
-
-        tableView.insertSubview(refreshControl, atIndex: 0)
+        
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -53,12 +51,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                             self.movies = responseDictionary["results"] as! [NSDictionary]
                             self.tableView.reloadData()
                             
-                            self.refreshControl.endRefreshing()
                     }
                 }
                 // Hide HUD once the network request comes back (must be done on main UI thread)
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
-                self.refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
                 
             })
         task.resume()
