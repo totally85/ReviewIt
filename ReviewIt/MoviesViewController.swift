@@ -21,6 +21,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     {
         super.viewDidLoad()
         
+        //Initialize a UIRefreshControl
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: Selector("refreshControlAction:"), forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -52,7 +56,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                             print("response: \(responseDictionary)") //prints the responseDictionary
                             
                             self.movies = responseDictionary["results"] as! [NSDictionary] //needs to get into the results portion of the dictionary
-                            self.tableView.reloadData() //reloads data after a network
+                            self.tableView.reloadData() //reloads data
                             
                     }
                 }
@@ -107,6 +111,40 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         print ("row \(indexPath.row)") //will print row #
         return cell
+    }
+    func refreshControlAction(refreshControl: UIRefreshControl)
+    {
+        //Gets the movies from the database
+        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed" //tells the database we're legit so we can access their stuff
+        let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)") //URL with apikey plugged in
+
+        
+        let request = NSURLRequest(
+            URL: url!,
+            cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
+            timeoutInterval: 10)
+        
+        let session = NSURLSession(
+            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+            delegate: nil,
+            delegateQueue: NSOperationQueue.mainQueue()
+        )
+            
+        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,
+            completionHandler: { (dataOrNil, response, error) in
+                if let data = dataOrNil {
+                    if let responseDictionary = try! //Dictionary is loaded into responseDictionary
+                        NSJSONSerialization.JSONObjectWithData( //parses JSCON into something our app can read
+                            data, options:[]) as? NSDictionary { //which is an NSDictionary
+                                print("response: \(responseDictionary)") //prints the responseDictionary
+                                
+                                self.tableView.reloadData()
+                                refreshControl.endRefreshing()
+                    }
+                }
+        })
+
+        task.resume()
     }
     /*
     // MARK: - Navigation
