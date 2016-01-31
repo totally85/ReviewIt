@@ -112,17 +112,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let movie = movies![indexPath.row] //! means it will not be nil once you've already declared an optional
         let title = movie["title"] as! String //We want title to be a string so it can go in the cell label
         let overview = movie["overview"] as! String //Overview needs to be a string
-        var posterPath = movie["poster_path"] as? String
-        
-        var imageURL = NSURL()
-        if posterPath == nil
+
+        if let posterPath = movie["poster_path"] as? String
         {
-             imageURL = NSURL(string: "http://www.hicksvillelibrary.org/images/ComingSoon.png")!
+            let posterBaseURL = "http://image.tmdb.org/t/p/w500"
+            let posterURL = NSURL(string: posterBaseURL + posterPath)
+            cell.posterView.setImageWithURL(posterURL!)
         }
         else
         {
-             let baseURL = "http://image.tmdb.org/t/p/w500"
-             imageURL = NSURL(string: baseURL + posterPath!)!
+            cell.posterView.image = nil
         }
         
        
@@ -130,7 +129,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         //Connects with MovieCell.swift file
         cell.titleLabel.text = filteredData[indexPath.row]
-        cell.posterView.setImageWithURL(imageURL)
         cell.overviewLabel.text = overview
         
         
