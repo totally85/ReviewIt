@@ -128,7 +128,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         
         //Connects with MovieCell.swift file
-        cell.titleLabel.text = filteredData[indexPath.row]
+        cell.titleLabel.text = title
         cell.overviewLabel.text = overview
         
         
