@@ -12,10 +12,18 @@ import MBProgressHUD
 
 
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate{
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
+ 
+    
     var movies: [NSDictionary]? //an array of NSDictionary
+  let data = ["The Revenant", "The Hateful Eight", "The Big Short", "The 5th Wave", "Kung Fu Panda 3", "Dirty Grandpa",
+    "Joy", "The Boy", "Batman: Sangue Rulm", "Ride Along 2", "13 Hours: The Secret Soldiers of Benghazi", "Daddy's Home",
+    "Quindariah Griffin's Interview", "Quo Vado?", "Exposed", "El Americano: The Movie", "The Finest Hours", "Fifty Shades of Black",
+        "Hail, Caesar!", "LEGO Friends: Girlz 4 Life", "Pride and Prejudice and Zombies", ]
+    
   
     override func viewDidLoad()
     {
@@ -23,15 +31,18 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         //Initialize a UIRefreshControl
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: Selector("refreshControlAction:"), forControlEvents: UIControlEvents.ValueChanged)
-        tableView.insertSubview(refreshControl, atIndex: 0)
+        
         
         tableView.dataSource = self
         tableView.delegate = self
+        searchBar.delegate = self
         
         //Gets the movies from the database
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed" //tells the database we're legit so we can access their stuff
         let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)") //URL with apikey plugged in
+        
+        refreshControl.addTarget(self, action: Selector("refreshControlAction:"), forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
         
         let request = NSURLRequest(
             URL: url!,
@@ -96,15 +107,25 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let movie = movies![indexPath.row] //! means it will not be nil once you've already declared an optional
         let title = movie["title"] as! String //We want title to be a string so it can go in the cell label
         let overview = movie["overview"] as! String //Overview needs to be a string
-        let posterPath = movie["poster_path"] as! String
-        let baseURL = "http://image.tmdb.org/t/p/w500"
+        var posterPath = movie["poster_path"] as? String
         
-        let imageURL = NSURL(string: baseURL + posterPath)
+        var imageURL = NSURL()
+        if posterPath == nil
+        {
+             imageURL = NSURL(string: "http://www.hicksvillelibrary.org/images/ComingSoon.png")!
+        }
+        else
+        {
+             let baseURL = "http://image.tmdb.org/t/p/w500"
+             imageURL = NSURL(string: baseURL + posterPath!)!
+        }
+        
+       
         
         
         //Connects with MovieCell.swift file
         cell.titleLabel.text = title
-        cell.posterView.setImageWithURL(imageURL!)
+        cell.posterView.setImageWithURL(imageURL)
         cell.overviewLabel.text = overview
         
         
