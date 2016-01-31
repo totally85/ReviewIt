@@ -19,10 +19,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
  
     
     var movies: [NSDictionary]? //an array of NSDictionary
-  let data = ["The Revenant", "The Hateful Eight", "The Big Short", "The 5th Wave", "Kung Fu Panda 3", "Dirty Grandpa",
-    "Joy", "The Boy", "Batman: Sangue Rulm", "Ride Along 2", "13 Hours: The Secret Soldiers of Benghazi", "Daddy's Home",
+    
+    let data = ["The Revenant", "The Hateful Eight", "The Big Short", "The 5th Wave", "Kung Fu Panda 3", "Dirty Grandpa",
+    "Joy", "The Boy", "Batman: Bad Blood", "Ride Along 2", "13 Hours: The Secret Soldiers of Benghazi", "Daddy's Home",
     "Quindariah Griffin's Interview", "Quo Vado?", "Exposed", "El Americano: The Movie", "The Finest Hours", "Fifty Shades of Black",
-        "Hail, Caesar!", "LEGO Friends: Girlz 4 Life", "Pride and Prejudice and Zombies", ]
+        "The Accountant", "WWE Royal Rumble 2016"]
+    var filteredData: [String]!
+    
+    
     
   
     override func viewDidLoad()
@@ -36,6 +40,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         searchBar.delegate = self
+        filteredData = data
         
         //Gets the movies from the database
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed" //tells the database we're legit so we can access their stuff
@@ -90,7 +95,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     {
         if let movies = movies //if movies has data in it
         {
-            return movies.count //returns number of movies in movies array
+            return filteredData.count //returns number of movies in movies array
         }
         else
         {
@@ -124,7 +129,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         
         //Connects with MovieCell.swift file
-        cell.titleLabel.text = title
+        cell.titleLabel.text = filteredData[indexPath.row]
         cell.posterView.setImageWithURL(imageURL)
         cell.overviewLabel.text = overview
         
@@ -166,6 +171,36 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         })
 
         task.resume()
+    }
+    //This method updates filteredData based on the text in the Search Box
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
+    {
+        //When there is no text, filteredData is the same as the original Data
+        if searchText.isEmpty
+        {
+            filteredData = data
+        }
+        else
+        {
+            //The user has entered text into the search box
+            //Use the filter method to iterate over all items in the data array
+            //For each item, return true if the item should be included and false if the
+            //item should NOT be included
+            
+            filteredData = data.filter({(dataItem: String) -> Bool in
+                
+                //if the dataItem matches the searchText, return true to include it
+                if dataItem.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+                {
+                    return true
+                }
+                else
+                {
+                    return false
+                }
+            })
+        }
+        tableView.reloadData()
     }
     /*
     // MARK: - Navigation
