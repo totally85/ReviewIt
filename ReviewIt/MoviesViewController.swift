@@ -69,7 +69,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     if let responseDictionary = try! //Dictionary is loaded into responseDictionary
                         NSJSONSerialization.JSONObjectWithData( //parses JSCON into something our app can read
                         data, options:[]) as? NSDictionary { //which is an NSDictionary
-                            print("response: \(responseDictionary)") //prints the responseDictionary
+                           // print("response: \(responseDictionary)") //prints the responseDictionary
                             
                             self.movies = responseDictionary["results"] as! [NSDictionary] //needs to get into the results portion of the dictionary
                             self.tableView.reloadData() //reloads data
@@ -108,14 +108,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     {
                                                                //identifier
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell //indexPath tells us where the cell is in the tableView
-        
         let movie = movies![indexPath.row] //! means it will not be nil once you've already declared an optional
         let title = movie["title"] as! String //We want title to be a string so it can go in the cell label
         let overview = movie["overview"] as! String //Overview needs to be a string
 
-        if let posterPath = movie["poster_path"] as? String
+        let posterBaseURL = "http://image.tmdb.org/t/p/w500" //remains the same
+        if let posterPath = movie["poster_path"] as? String //added to the base URL to find a specific poster
         {
-            let posterBaseURL = "http://image.tmdb.org/t/p/w500"
+            
             let posterURL = NSURL(string: posterBaseURL + posterPath)
             cell.posterView.setImageWithURL(posterURL!)
         }
@@ -123,17 +123,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         {
             cell.posterView.image = nil
         }
-        
-       
-        
-        
-        //Connects with MovieCell.swift file
+        //cell.titleLabel?.text = filteredData[indexPath.row]
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
         
         
-        
-        print ("row \(indexPath.row)") //will print row #
+       // print ("row \(indexPath.row)") //will print row #
         return cell
     }
     func refreshControlAction(refreshControl: UIRefreshControl)
@@ -160,7 +155,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     if let responseDictionary = try! //Dictionary is loaded into responseDictionary
                         NSJSONSerialization.JSONObjectWithData( //parses JSCON into something our app can read
                             data, options:[]) as? NSDictionary { //which is an NSDictionary
-                                print("response: \(responseDictionary)") //prints the responseDictionary
+                                //print("response: \(responseDictionary)") //prints the responseDictionary
                                 
                                 self.tableView.reloadData()
                                 refreshControl.endRefreshing()
@@ -200,14 +195,23 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         }
         tableView.reloadData()
     }
-    /*
+ 
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPathForCell(cell)
+        let movie = movies![indexPath!.row]
+        
+        let detailViewController = segue.destinationViewController as! DetailViewController
+        detailViewController.movie_dictionary = movie
+        
+        print("prepare for segue call")
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+ 
 
 }
