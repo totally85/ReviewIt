@@ -19,6 +19,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
  
     
     var movies: [NSDictionary]? //an array of NSDictionary
+    var endpoint: String!
     
     let data = ["The Revenant", "The Hateful Eight", "The Big Short", "The 5th Wave", "Kung Fu Panda 3", "Dirty Grandpa",
     "Joy", "The Boy", "Batman: Bad Blood", "Ride Along 2", "13 Hours: The Secret Soldiers of Benghazi", "Daddy's Home",
@@ -44,7 +45,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         //Gets the movies from the database
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed" //tells the database we're legit so we can access their stuff
-        let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)") //URL with apikey plugged in
+        let url = NSURL(string: "https://api.themoviedb.org/3/movie/\(endpoint)?api_key=\(apiKey)") //URL with apikey plugged in
         
         refreshControl.addTarget(self, action: Selector("refreshControlAction:"), forControlEvents: UIControlEvents.ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)

@@ -30,7 +30,6 @@ class DetailViewController: UIViewController {
         
         let overview = movie_dictionary["overview"] as? String //Parses the movie dictionary for overviews and sets the variable to the movie's overview
         overviewLabel.text = overview //Sets hte label to the movie's overview
-        
         overviewLabel.sizeToFit()
         
         let posterBaseURL = "http://image.tmdb.org/t/p/w500" //remains the same
