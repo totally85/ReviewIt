@@ -20,12 +20,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     var movies: [NSDictionary]? //an array of NSDictionary
     var endpoint: String!
-    
-    let data = ["The Revenant", "The Hateful Eight", "The Big Short", "The 5th Wave", "Kung Fu Panda 3", "Dirty Grandpa",
-    "Joy", "The Boy", "Batman: Bad Blood", "Ride Along 2", "13 Hours: The Secret Soldiers of Benghazi", "Daddy's Home",
-    "Quindariah Griffin's Interview", "Quo Vado?", "Exposed", "El Americano: The Movie", "The Finest Hours", "Fifty Shades of Black",
-        "The Accountant", "WWE Royal Rumble 2016"]
-    var filteredData: [String]!
+    var filteredData: [NSDictionary]?
     
     
     
@@ -41,7 +36,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         searchBar.delegate = self
-        filteredData = data
         
         //Gets the movies from the database
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed" //tells the database we're legit so we can access their stuff
@@ -73,6 +67,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                            // print("response: \(responseDictionary)") //prints the responseDictionary
                             
                             self.movies = responseDictionary["results"] as! [NSDictionary] //needs to get into the results portion of the dictionary
+                            self.filteredData = self.movies
                             self.tableView.reloadData() //reloads data
                             
                     }
@@ -94,7 +89,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     //Tells the table cell how many rows it has
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        if let movies = movies //if movies has data in it
+        if let filteredData = filteredData //if movies has data in it
         {
             return filteredData.count //returns number of movies in movies array
         }
@@ -109,7 +104,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     {
                                                                //identifier
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell //indexPath tells us where the cell is in the tableView
-        let movie = movies![indexPath.row] //! means it will not be nil once you've already declared an optional
+        let movie = filteredData![indexPath.row] //! means it will not be nil once you've already declared an optional
         let title = movie["title"] as! String //We want title to be a string so it can go in the cell label
         let overview = movie["overview"] as! String //Overview needs to be a string
 
@@ -175,7 +170,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         //When there is no text, filteredData is the same as the original Data
         if searchText.isEmpty
         {
-            filteredData = data
+            filteredData = movies
         }
         else
         {
@@ -184,10 +179,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             //For each item, return true if the item should be included and false if the
             //item should NOT be included
             
-            filteredData = data.filter({(dataItem: String) -> Bool in
+            filteredData = movies!.filter({(movie: NSDictionary) -> Bool in
                 
-                //if the dataItem matches the searchText, return true to include it
-                if dataItem.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+                if let title = movie["title"] as? String { //checks to see if the title is nil; if something is in it -> if_body else it will just return false
+                //if the title matches the searchText, return true to include it
+                if title.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
                 {
                     return true
                 }
@@ -195,6 +191,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 {
                     return false
                 }
+                }
+                return false
             })
         }
         tableView.reloadData()
@@ -207,7 +205,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         let cell = sender as! UITableViewCell
         let indexPath = tableView.indexPathForCell(cell)
-        let movie = movies![indexPath!.row]
+        let movie = filteredData![indexPath!.row]
         
         let detailViewController = segue.destinationViewController as! DetailViewController
         detailViewController.movie_dictionary = movie
