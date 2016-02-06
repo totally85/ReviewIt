@@ -60,7 +60,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-# Project 2 - *Name of App Here*
+# Project 2 - *ReviewIt*
 
 **ReviewIt** is a movies app displaying box office and top rental DVDs using [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
@@ -94,7 +94,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/hfZCde2.gifv' title='ReviewIt2' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/hfZCde2.gif' title='ReviewIt2' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
