@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3AB487DEB4CFAB8EBA0485F6 /* Pods_ReviewIt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0BB2ED2195A7199E4FD157 /* Pods_ReviewIt.framework */; };
+		CC0339D01C644706001036AD /* ReviewIt in Resources */ = {isa = PBXBuildFile; fileRef = CC0339CF1C644706001036AD /* ReviewIt */; };
 		CC09DBC51C58595300C1B33B /* Pods-ReviewIt-frameworks.sh in Resources */ = {isa = PBXBuildFile; fileRef = CC09DBC41C58595300C1B33B /* Pods-ReviewIt-frameworks.sh */; };
 		CC26882C1C55B87C009B46A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC26882B1C55B87C009B46A2 /* AppDelegate.swift */; };
 		CC2688311C55B87C009B46A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC26882F1C55B87C009B46A2 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		01E7A865350F412DAB60C117 /* Pods-ReviewIt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReviewIt.release.xcconfig"; path = "Pods/Target Support Files/Pods-ReviewIt/Pods-ReviewIt.release.xcconfig"; sourceTree = "<group>"; };
 		B0E118FF25B52F101248FFE5 /* Pods-ReviewIt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReviewIt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ReviewIt/Pods-ReviewIt.debug.xcconfig"; sourceTree = "<group>"; };
+		CC0339CF1C644706001036AD /* ReviewIt */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ReviewIt; sourceTree = "<group>"; };
 		CC09DBC41C58595300C1B33B /* Pods-ReviewIt-frameworks.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "Pods-ReviewIt-frameworks.sh"; path = "Pods/Target Support Files/Pods-ReviewIt/Pods-ReviewIt-frameworks.sh"; sourceTree = "<group>"; };
 		CC2688281C55B87C009B46A2 /* ReviewIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReviewIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC26882B1C55B87C009B46A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		CC26883F1C55CDDA009B46A2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CC0339CF1C644706001036AD /* ReviewIt */,
 				CCC221A01C5B288A002C128F /* MovieCell.swift */,
 			);
 			name = Views;
@@ -175,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC09DBC51C58595300C1B33B /* Pods-ReviewIt-frameworks.sh in Resources */,
+				CC0339D01C644706001036AD /* ReviewIt in Resources */,
 				CC2688361C55B87C009B46A2 /* LaunchScreen.storyboard in Resources */,
 				CC2688331C55B87C009B46A2 /* Assets.xcassets in Resources */,
 				CC2688311C55B87C009B46A2 /* Main.storyboard in Resources */,

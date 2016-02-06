@@ -133,7 +133,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func refreshControlAction(refreshControl: UIRefreshControl)
     {
         //Gets the movies from the database
-        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed" //tells the database we're legit so we can access their stuff
+        let apiKey = "a07;e22bc18f5cb106bfe4cc1f83ad8ed" //tells the database we're legit so we can access their stuff
         let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)") //URL with apikey plugged in
 
         
